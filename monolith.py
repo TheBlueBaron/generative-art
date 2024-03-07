@@ -62,7 +62,8 @@ draw_image.rectangle((rectangle_top_left, rectangle_bottom_right), fill=(
 monolith_border = 5
 elementary_rule = 22
 
-ca_draw_data = generate_ca_data(int(((height / 2) - (monolith_border * 2))), int((rectangle_width - (monolith_border * 2))), True, elementary_rule)
+ca_draw_data = generate_ca_data(int(((height / 2) - (monolith_border * 2))), 
+                                int((rectangle_width - (monolith_border * 2))), True, elementary_rule)
 
 for y in range (int((height / 2) - (monolith_border * 2))):
     for x in range (rectangle_width - (monolith_border * 2)):
