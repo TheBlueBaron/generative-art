@@ -57,11 +57,12 @@ rectangle_top_left = ((width / 2) - (rectangle_width / 2), height / 4)
 rectangle_bottom_right = ((width / 2) + (rectangle_width / 2), (height - (height / 4)))
 
 draw_image.rectangle((rectangle_top_left, rectangle_bottom_right), fill=(
-    random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+    random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), outline=(0, 0, 0), width=(3))
 
 monolith_border = 5
+elementary_rule = 22
 
-ca_draw_data = generate_ca_data(int(((height / 2) - (monolith_border * 2))), int((rectangle_width - (monolith_border * 2))), True, 22)
+ca_draw_data = generate_ca_data(int(((height / 2) - (monolith_border * 2))), int((rectangle_width - (monolith_border * 2))), True, elementary_rule)
 
 for y in range (int((height / 2) - (monolith_border * 2))):
     for x in range (rectangle_width - (monolith_border * 2)):
