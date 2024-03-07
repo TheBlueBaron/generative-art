@@ -45,7 +45,7 @@ image = generate_gradient((random.randint(0, 255), random.randint(0, 255), rando
 
 draw_image = ImageDraw.Draw(image)
 
-bound_top_left = (0 - width / 2, height / 2)
+bound_top_left = (0 - width / 2, (height / 2) + (height / 8))
 bound_bottom_right = (width + (width / 2), (height + (height / 2)))
 
 draw_image.ellipse((bound_top_left, bound_bottom_right), fill=((
