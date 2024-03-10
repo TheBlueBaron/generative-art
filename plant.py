@@ -1,8 +1,8 @@
 import turtle
+import random
 
 size = 5
 positions = []
-angle = 25
 
 AXIOM = 'X'
 RULES = { 'X' : 'F+[[X]-X]-F[-FX]+X',
@@ -43,9 +43,9 @@ for op in s:
     if op == "G":
         gen.forward(size)
     elif op == "+":
-        gen.left(angle)
+        gen.left(random.randint(20, 35))
     elif op == "-":
-        gen.right(angle)
+        gen.right(random.randint(20, 35))
     elif op == "[":
         positions.append((gen.heading(), gen.position()))
     elif op == "]":

@@ -1,14 +1,15 @@
 import random
+import turtle_pil
 
 from PIL import Image, ImageDraw
 
-image = Image.new('RGB', (1280, 1440))
+image = Image.new('RGBA', (1280, 1440))
 width, height = image.size
 
 def generate_gradient(color1: tuple[int, int, int], color2: tuple[int, int, int], 
                       width: int, height: int):
-    base = Image.new('RGB', (width, height), color1)
-    top = Image.new('RGB', (width, height), color2)
+    base = Image.new('RGBA', (width, height), color1)
+    top = Image.new('RGBA', (width, height), color2)
     mask = Image.new('L', (width, height))
     mask_data = []
 
@@ -68,5 +69,71 @@ ca_draw_data = generate_ca_data(int(((height / 2) - (monolith_border * 2))),
 for y in range (int((height / 2) - (monolith_border * 2))):
     for x in range (rectangle_width - (monolith_border * 2)):
         if ca_draw_data[y][x]: draw_image.point((x + (width / 2) - (rectangle_width / 2) + monolith_border, y + height / 4 + monolith_border), (0, 0, 0))
+
+size = 5
+positions = []
+
+AXIOM = 'X'
+RULES = { 'X' : 'F+[[X]-X]-F[-FX]+X',
+          'F' : 'FF',
+          '[' : '[',
+          ']' : ']',
+          '+' : '+',
+          '-' : '-' }
+
+ITERATIONS = 5
+
+def l_system(start, rules):
+    out_system = ''
+    for c in start:
+        s = rules[c]
+        out_system += s
+
+    return out_system
+
+s = AXIOM
+for i in range(ITERATIONS):
+    s = l_system(s, RULES)
+
+turtle_pil.left(90)
+turtle_pil.pensize(3)
+turtle_pil.penup()
+turtle_pil.goto(0, 0 - turtle_pil.window_height() / 2)
+turtle_pil.pendown()
+
+for op in s:
+    if op == "F":
+        turtle_pil.forward(size)
+    if op == "G":
+        turtle_pil.forward(size)
+    elif op == "+":
+        turtle_pil.left(random.randint(20, 40))
+    elif op == "-":
+        turtle_pil.right(random.randint(20, 40))
+    elif op == "[":
+        positions.append((turtle_pil.heading(), turtle_pil.position()))
+    elif op == "]":
+        heading, position = positions.pop()
+        turtle_pil.penup()
+        turtle_pil.goto(position[0], position[1])
+        turtle_pil.setheading(heading)
+        turtle_pil.pendown()
+
+turtle_pil.done()
+
+tree = Image.open('./output.png')
+tree_alpha = tree.convert('RGBA')
+tree_data = tree_alpha.getdata()
+
+new_data = []
+for d in tree_data:
+    if d[0] == 255 and d[1] == 255 and d[2] == 255:
+        new_data.append((255, 255, 255, 0))
+    else:
+        new_data.append(d)
+
+tree_alpha.putdata(new_data)
+
+image.alpha_composite(tree_alpha, (int(width / 8 * 4.5), int(height / 8 * 2.5)))
 
 image.save('./monolith.png')
